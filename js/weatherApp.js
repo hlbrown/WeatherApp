@@ -79,7 +79,7 @@ var renderFiveDay = function(data) {
             data.list[weather[i]].weather[0].icon
           }.png`;
           document.getElementById("fiveDay").innerHTML += `
-          <div class ="card col-lg-2 col-md-6 bg-$blue-100 text-black" >
+          <div class ="card col-lg-2 col-md-6 text-black" >
           <div class="card-body">
             <h5 class="card-title">${moment.unix(data.list[weather[i]].dt).format("MM/DD/YYYY")}</h5><br>
             <img src='${icon}'/>
