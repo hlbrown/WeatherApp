@@ -48,7 +48,9 @@ This homework is graded based on the following criteria:
 
 ✅✅* Repository contains quality readme file with description, screenshot, and link to deployed application.
 ## Resources
-Image of site ()
+✅✅Image of site (https://github.com/hlbrown/WeatherApp/blob/main/assets/weatherApp.JPG)
+✅✅URL live site (https://hlbrown.github.io/WeatherApp/)
+✅✅URL of Github repo (https://github.com/hlbrown/WeatherApp)
 
 ## Review
 

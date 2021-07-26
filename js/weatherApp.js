@@ -12,20 +12,21 @@ var userFormHandler = function(event){
     event.preventDefault();
 
     var userInput = userInputEl.value.trim();
-    
+    //setting up the local storage 
     if(localStorage.getItem("searchHistory") == null){
         localStorage.setItem("searchHistory", "[]");
     }
 
     var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
     searchHistory.unshift(userInput);
-
+    //retaining the user input history
     localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
     userInputEl.value = "";
     renderHistory();
     weatherApi(userInput);
 };
 
+//shows the searched cities
 var renderHistory = function () {
    var searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
    citiesDiv.innerHTML = "";
@@ -38,11 +39,12 @@ var renderHistory = function () {
    }
 };
 
+//getting the weather information from the openweather forecast api
 var weatherApi = function(userInput){
     var requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" +
     userInput +
     "&units=imperial&appid=" +
-    myKey;
+    myKey;//uses the api key here and displays temp in ℉
     fetch(requestUrl)
         .then(function(response){
             return response.json();
@@ -52,7 +54,7 @@ var weatherApi = function(userInput){
         });
 };
 
-var renderJumbotron = function(data){
+var renderJumbotron = function(data){//function to render the current weather info
     showingResultsDiv.innerHTML =` <div class="jumbotron p-3 m-2 bg-light rounded text-black"><h3><b>${data.city.name}</b>(${moment.unix(data.list[0].dt).format("MM/DD/YYYY")})</h3>
     <p class="lead">Temp: ${data.list[0].main.temp} ℉;<br></p>
     <p>wind: ${data.list[0].wind.speed} MPH<br></p>
@@ -68,6 +70,7 @@ var renderJumbotron = function(data){
     renderFiveDay(data);
     document.body.style.backgroundColor = `grey`;
 };
+//function to output the next 5 days
 
 var renderFiveDay = function(data) {
     var weather = [1, 6, 14, 22, 30];
@@ -88,6 +91,7 @@ var renderFiveDay = function(data) {
     }
 };
 
+//getting the users lat long using the onecall api 
 var renderUvIndex = function(lat, lon){
     var requestUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${myKey}`;
 
@@ -97,7 +101,7 @@ var renderUvIndex = function(lat, lon){
     })
     .then(function(data){
         var uvIndex = data.current.uvi;
-        document.getElementById("uvIndexEl").innerHTML = uvIndex < 3
+        document.getElementById("uvIndexEl").innerHTML = uvIndex < 3//coloring the button based on the uv index for that day
         ?`<button type="button" class="btn btn-success bg-gradient"${uvIndex}</button>`
         : uvIndex < 6
         ?`<button type="button" class="btn btn-warning bg-gradient>${uvIndex}</button>`
@@ -108,7 +112,7 @@ var renderUvIndex = function(lat, lon){
 var buttonClickHandler = function(event){
     var city = event.target.getAttribute("data-city");
     if(city){
-        weather(city);
+        weatherApi(city);
     }
 };
 
